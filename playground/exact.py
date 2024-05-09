@@ -55,10 +55,10 @@ def din(G):
     
     return FAS
     
-g = nx.DiGraph()
-g.add_edges_from([("1","kjvgakjb"),("kjvgakjb",3),(3,"1")])
-print(din(g))
+# g = nx.DiGraph()
+# g.add_edges_from([("1","kjvgakjb"),("kjvgakjb",3),(3,"1")])
+# print(din(g))
 
-g = nx.cycle_graph(3)
-g = nx.DiGraph(g)
-print(din(g))
+# g = nx.cycle_graph(3)
+# g = nx.DiGraph(g)
+# print(din(g))
