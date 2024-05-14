@@ -7,5 +7,6 @@
     - vse te formate poenotimo tako, da jih zberemo v eni bazi graphs.csv in njihove pickle v mapi pickles (1. naredi mapo pickles, 2. poženi construct_db.py)
 
 - playground = prostor za poskušanje stvari
-- helper_functions.py = implementacije
+- solvers = implementacije
+- helper_functions.py = pomožne funkcije
 - NOTES.md = beleženje virov itd.
