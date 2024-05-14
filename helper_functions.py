@@ -17,7 +17,7 @@ def read_graph_file(graph_file,verbose=True):
         their_result = None
         try:
             with open(graph_file[:-3] + ".mfas","r") as file:
-                their_result = file.readlines()
+                their_result = len(file.readlines())
         except FileNotFoundError:
             pass
                     
