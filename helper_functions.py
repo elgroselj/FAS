@@ -1,10 +1,13 @@
 import networkx as nx
 import re
+
+def path_to_graph_name(graph_file):
+    graph_name = re.split('\ |/', graph_file)[-1]
+    return graph_name
         
 def read_graph_file(graph_file,verbose=True):
     
-    # graph_name = graph_file[-20:]
-    graph_name = re.split('\ |/', graph_file)[-1]
+    graph_name = path_to_graph_name(graph_file)
             
     if graph_file[-3:] == ".al":
         # FASP-benchmarks format (adjency list)
