@@ -4,7 +4,7 @@
     - FVStekmovanje (se uporabi čist normalno, razen, če hočemo uporabit njihove rezultate, potem moramo naredit iz teh grafov line grafe)
     - snap (realna omrežja == velika)
 
-    - vse te formate poenotimo tako, da jih zberemo v eni bazi graphs.csv in njihove pickle v mapi pickles (1. naredi mapo pickles, 2. poženi construct_db.py)
+    - vse te formate poenotimo tako, da jih zberemo v eni bazi graphs.csv in njihove pickle v mapi pickles (1. naredi mapo pickles, 2. poženi construct_db_components.py)
 
 - playground = prostor za poskušanje stvari
 - solvers = implementacije
