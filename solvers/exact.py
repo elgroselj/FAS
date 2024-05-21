@@ -1,5 +1,7 @@
 import networkx as nx
 from functools import cache
+from pysat.examples.rc2 import RC2
+from pysat.formula import WCNF
 
 @cache
 def sub(G):
@@ -49,6 +51,43 @@ def din(G):
     FAS = [(inv_mapping[v1], inv_mapping[v2]) for (v1,v2) in FAS]
     
     return FAS
+
+
+def exact_with_wcnf(G):
+    cycles = list(nx.simple_cycles(graph))
+    n = graph.number_of_nodes()
+    #print(cycles)
+
+    wcnf = WCNF()
+    m = 0
+    remove = []
+
+    for cycle in cycles:
+        arr = list(map(int, cycle))
+        add = []
+        for i in range(len(arr)):
+            x, y = arr[i], arr[(i+1)%len(arr)]
+            index = n*x + y
+            add.append(index)
+            m = max(m, index)
+        wcnf.append(add)
+
+    # minimize number of vertices needed to remove
+    for i in range(1, m+1):
+        wcnf.append([-i], weight=1)
+
+    sol_g = RC2(wcnf)
+    #print(sol_g.compute())
+    opt = next(sol_g.enumerate())
+
+    for edge in opt:
+        if edge > 0:
+            y = n if (edge) % n == 0 else (edge) % n
+            x = (edge - y) // n
+            #print('removing edge {0} {1}'.format(x, y))
+            remove.append((str(x), str(y)))
+    
+    return remove
     
 # g = nx.DiGraph()
 # g.add_edges_from([("1","kjvgakjb"),("kjvgakjb",3),(3,"1")])

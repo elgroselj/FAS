@@ -6,7 +6,7 @@ import numpy as np
 # import cugraph as nx
 from networkx.algorithms import apx
 
-db_name = "graphs.csv"
+db_name = "components.csv"
 df = pd.read_csv(db_name)
 
 
@@ -25,7 +25,8 @@ def elementary_measures(l,name):
 cols = list(df.columns)
 new_cols = None
 for i in range(len(df)):
-    print(f"INFO: Working on {i}th row ...")
+    if i % 1000 == 0:
+        print(f"INFO: Working on {i}th row ...")
     
     row = df.iloc[i]    
     pickle_path = row["pickle_path"]
@@ -40,7 +41,7 @@ for i in range(len(df)):
     if new_cols is None or "m" in new_cols:
         d["m"] = G.number_of_edges()
     
-    if new_cols is None or "parallel_edges" in new_cols:
+    '''if new_cols is None or "parallel_edges" in new_cols:
         A= nx.adjacency_matrix(G)
         d["parallel_edges"] = len(np.where(A+A.T == 2))/2
     
@@ -77,7 +78,7 @@ for i in range(len(df)):
     
     if new_cols is None or "degree_min" in new_cols:
         degrees = np.array([deg for n,deg in G.degree])
-        d.update(elementary_measures(degrees,"degree"))
+        d.update(elementary_measures(degrees,"degree"))'''
         
     
     
@@ -115,4 +116,4 @@ for i in range(len(df)):
             df.iloc[i][col] = d[col]
     
 
-df.to_csv("chars_"+db_name, index=False)
+df.to_csv("chars2_" + db_name, index=False)
