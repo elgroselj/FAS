@@ -1,5 +1,6 @@
 import networkx as nx
 import re
+import matplotlib.pyplot as plt
 
 def path_to_graph_name(graph_file):
     graph_name = re.split('\ |/', graph_file)[-1]
@@ -62,6 +63,18 @@ def read_graph_file(graph_file,verbose=True):
     
 
     return G, graph_name, source, their_result
+
+def draw_graph_with_FVS(G, edges_remove):
+    edge_colors = []
+    for u, v in G.edges():
+        #print(u,v)
+        if (u,v) in edges_remove:
+            print(u,v)
+            edge_colors.append('r')
+        else:
+            edge_colors.append('b')
+    nx.draw(G, edge_color=edge_colors, with_labels=True)
+    plt.show()
 
 # read_graph_file("/home/lema/Documents/aproks/FAS/data/FVScompetition/core/complete2.d")
             
