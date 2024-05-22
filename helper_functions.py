@@ -79,6 +79,14 @@ def draw_graph_with_FVS(G, edges_remove):
 # read_graph_file("/home/lema/Documents/aproks/FAS/data/FVScompetition/core/complete2.d")
             
     
-
+def repeat_max(fun_call,n):
+    # example: repeat_max(lambda: LB(G), 5)
+    maksi = None
+    for i in range(n):
+        val = fun_call()
+        maksi = val if maksi is None or maksi < val else maksi
+    return maksi
+        
+        
     
     

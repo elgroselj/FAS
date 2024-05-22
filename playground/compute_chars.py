@@ -4,7 +4,13 @@ import networkx as nx
 import matplotlib.pyplot as plt
 import numpy as np
 # import cugraph as nx
-# from networkx.algorithms import apx
+from networkx.algorithms import approximation as apx
+
+
+import sys
+sys.path.append(".")
+from solvers.lower_bound import LB
+from helper_functions import repeat_max 
 
 # db_name = "components.csv"
 db_name = "components_small.csv"
@@ -84,30 +90,72 @@ for i in range(len(df)):
         degrees = np.array([deg for n,deg in G.degree])
         d.update(elementary_measures(degrees,"degree"))
         
-    if new_cols is None or "closeness_centrality" in new_cols:
-        d["closeness_centrality"] = nx.closeness_centrality(G)
-        
-    if new_cols is None or "betweenness_centrality" in new_cols:
-        d["betweenness_centrality"] = nx.betweenness_centrality(G)
+    if new_cols is None or "closeness_centrality_min" in new_cols:
+        vals = np.array([val for n,val in nx.closeness_centrality(G).items()])
+        d.update(elementary_measures(vals,"closeness_centrality"))
         
         
-    if new_cols is None or "degree_centrality" in new_cols:
-        d["degree_centrality"] = nx.degree_centrality(G)
+    if new_cols is None or "betweenness_centrality_min" in new_cols:
+        vals = np.array([val for n,val in nx.betweenness_centrality(G).items()])
+        d.update(elementary_measures(vals,"betweenness_centrality"))
         
+    # if new_cols is None or "betweenness_centrality" in new_cols:
+    #     d["betweenness_centrality"] = nx.betweenness_centrality(G)
+    
+    
+    if new_cols is None or "degree_centrality_min" in new_cols:
+        vals = np.array([val for n,val in nx.degree_centrality(G).items()])
+        d.update(elementary_measures(vals,"degree_centrality"))
+        
+    # if new_cols is None or "degree_centrality" in new_cols:
+    #     d["degree_centrality"] = nx.degree_centrality(G)
+        
+    # ne dela na vseh, izpuscam
     # if new_cols is None or "eigenvector_centrality" in new_cols:
-    #     d["eigenvector_centrality"] = nx.eigenvector_centrality(G)
+        #     d["eigenvector_centrality"] = nx.eigenvector_centrality(G)
+    
+    
+    if new_cols is None or "clustering_min" in new_cols:
+        vals = np.array([val for n,val in nx.clustering(G).items()])
+        d.update(elementary_measures(vals,"clustering"))
+    # if new_cols is None or "clustering" in new_cols:
+    #     d["clustering"] = nx.clustering(G)
         
-    if new_cols is None or "clustering" in new_cols:
-        d["clustering"] = nx.clustering(G)
+    
+        
     if new_cols is None or "transitivity" in new_cols:
         d["transitivity"] = nx.transitivity(G)
-    if new_cols is None or "katz_centrality" in new_cols:
-        d["katz_centrality"] = nx.katz_centrality(G)
-    if new_cols is None or "pagerank" in new_cols:
-        d["pagerank"] = nx.pagerank(G)
+        
+    if new_cols is None or "katz_centrality_min" in new_cols:
+        vals = np.array([val for n,val in nx.katz_centrality(G).items()])
+        d.update(elementary_measures(vals,"katz_centrality"))
+        
+    # if new_cols is None or "katz_centrality" in new_cols:
+    #     d["katz_centrality"] = nx.katz_centrality(G)
+    
+    
+    if new_cols is None or "pagerank_min" in new_cols:
+        vals = np.array([val for n,val in nx.pagerank(G).items()])
+        d.update(elementary_measures(vals,"pagerank"))
+    # if new_cols is None or "pagerank" in new_cols:
+    #     d["pagerank"] = nx.pagerank(G)
+    
+    
+    
+    
+    
+    # cast v NEUSMERJEN graf
+    if new_cols is None or "treewidth_min_fill_in" in new_cols:
+        d["treewidth_min_fill_in"], _ = apx.treewidth_min_fill_in(nx.Graph(G))
+        
+    if new_cols is None or "treewidth_min_degree" in new_cols:
+        d["treewidth_min_degree"], _ = apx.treewidth_min_degree(nx.Graph(G))
         
   
         
+    if new_cols is None or "LB" in new_cols:
+        d["LB"] = repeat_max(lambda: LB(G), 5)
+    
     
         
     
