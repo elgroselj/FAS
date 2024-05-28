@@ -1,6 +1,6 @@
-from s_c_c import filter_big_scc
-from s_c_c import scc_nodes_edges
-from s_c_c import get_big_sccs
+from .s_c_c import filter_big_scc
+from .s_c_c import scc_nodes_edges
+from .s_c_c import get_big_sccs
 import networkx as nx
 
 

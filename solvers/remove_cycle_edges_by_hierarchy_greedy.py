@@ -1,6 +1,6 @@
 import networkx as nx
-from s_c_c import filter_big_scc
-from s_c_c import get_big_sccs
+from .s_c_c import filter_big_scc
+from .s_c_c import get_big_sccs
 import os.path
 import sys
 sys.setrecursionlimit(5500000)
@@ -23,7 +23,7 @@ def remove_cycle_edges_by_agony(graph,players,edges_to_be_removed):
 		u,v = pair
 		agony = max(players[u]-players[v],0)
 		pair_agony_dict[pair] = agony
-	from helper_funs import pick_from_dict
+	from .helper_funs import pick_from_dict
 	pair_max_agony,agony = pick_from_dict(pair_agony_dict)
 
 	edges_to_be_removed.append(pair_max_agony)
@@ -61,7 +61,7 @@ def remove_cycle_edges_by_agony_iterately(sccs,players,edges_to_be_removed):
 			return
 
 def scores_of_nodes_in_scc(sccs,players):
-	from s_c_c import nodes_in_scc
+	from .s_c_c import nodes_in_scc
 	scc_nodes = nodes_in_scc(sccs)
 	scc_nodes_score_dict = {}
 	for node in scc_nodes:
@@ -83,7 +83,7 @@ def scc_based_to_remove_cycle_edges_recursilvely(g,nodes_score):
 
 
 def scc_based_to_remove_cycle_edges_iterately(g,nodes_score):
-	from remove_self_loops import remove_self_loops_from_graph
+	from .remove_self_loops import remove_self_loops_from_graph
 	self_loops = remove_self_loops_from_graph(g)
 	big_sccs = get_big_sccs(g)
 	scc_nodes_score_dict = scores_of_nodes_in_scc(big_sccs,nodes_score)

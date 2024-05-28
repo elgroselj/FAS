@@ -1,7 +1,7 @@
 import networkx as nx
-from remove_cycle_edges_by_hierarchy_greedy import scc_based_to_remove_cycle_edges_iterately
-from remove_cycle_edges_by_hierarchy_BF import remove_cycle_edges_BF_iterately
-from remove_cycle_edges_by_hierarchy_voting import remove_cycle_edges_heuristic
+from .remove_cycle_edges_by_hierarchy_greedy import scc_based_to_remove_cycle_edges_iterately
+from .remove_cycle_edges_by_hierarchy_BF import remove_cycle_edges_BF_iterately
+from .remove_cycle_edges_by_hierarchy_voting import remove_cycle_edges_heuristic
 #from measures import F1
 	
 def get_edges_voting_scores(set_edges_list):
@@ -80,7 +80,7 @@ def computing_hierarchy(g,players_score_func_name, nodetype = int):
 
 		if True:
 			#print("start computing trueskill...")
-			from true_skill import graphbased_trueskill
+			from .true_skill import graphbased_trueskill
 			players = graphbased_trueskill(g)
 			#print("write trueskill to file: %s" % output_file)
 		

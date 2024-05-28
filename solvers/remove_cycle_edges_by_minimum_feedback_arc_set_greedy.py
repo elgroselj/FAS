@@ -1,6 +1,6 @@
-from s_c_c import filter_big_scc
-from s_c_c import scc_nodes_edges
-from s_c_c import get_big_sccs
+from .s_c_c import filter_big_scc
+from .s_c_c import scc_nodes_edges
+from .s_c_c import get_big_sccs
 import networkx as nx
 
 
@@ -35,7 +35,7 @@ def greedy_local_heuristic(sccs,degree_dict,edges_to_be_removed):
 		temp_nodes_degree_dict = {}
 		for node in graph.nodes():
 			temp_nodes_degree_dict[node] = degree_dict[node][0]
-		from helper_funs import pick_from_dict
+		from .helper_funs import pick_from_dict
 		max_node,_ = pick_from_dict(temp_nodes_degree_dict)
 		max_value = degree_dict[max_node]
 		#degrees = [(node,degree_dict[node]) for node in list(graph.nodes())]
@@ -55,7 +55,7 @@ def greedy_local_heuristic(sccs,degree_dict,edges_to_be_removed):
 			return
 
 def remove_cycle_edges_by_mfas(g):
-	from remove_self_loops import remove_self_loops_from_graph
+	from .remove_self_loops import remove_self_loops_from_graph
 	self_loops = remove_self_loops_from_graph(g)
 
 	scc_nodes,_,_,_ = scc_nodes_edges(g)

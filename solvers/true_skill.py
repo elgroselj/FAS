@@ -5,7 +5,7 @@ import time
 from datetime import datetime
 import random 
 
-from measures import measure_pairs_agreement
+from .measures import measure_pairs_agreement
 
 def compute_trueskill(pairs,players):
 	if not players:
@@ -47,7 +47,7 @@ def trueskill_ratings(pairs,iter_times = 15,n_sigma = 3,threshold = 0.85):
 	return relative_scores
 
 def graphbased_trueskill(g,iter_times = 15,n_sigma = 3,threshold = 0.95):
-	from s_c_c import scc_nodes_edges
+	from .s_c_c import scc_nodes_edges
 	
 	relative_scores = trueskill_ratings(list(g.edges()),iter_times = iter_times,n_sigma = n_sigma,threshold = threshold)
 	scc_nodes,scc_edges,nonscc_nodes,nonscc_edges = scc_nodes_edges(g)
