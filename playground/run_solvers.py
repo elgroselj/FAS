@@ -32,22 +32,24 @@ def wrap(solver, n=5):
             sol = solver(G)
             stop = time()
             results.append((sol, stop - start))
-        return min(results, key = lambda t: t[0])
+        #return min(results, key = lambda t: t[0])
+        r = min(results, key = lambda t: t[0])
+        return (len(r[0]), r[1])
     return run_n_times
 
 solvers_dict = {
     #"diverses": diverses,
-    "italjani": wrap(get_some_FAS, 5),
-    #"remove_edges_dfs": remove_edges_dfs,
-    #"remove_edges_FAS_greedy": remove_edges_FAS_greedy,
-    #"remove_edges_pagerank_scc_iteratively": lambda G: remove_edges_hierarchy(G, "pagerank", "scc_iteratively"),
-    #"remove_edges_trueskill_scc_iterativela": lambda G: remove_edges_hierarchy(G, "trueskill", "scc_iteratively"),
-    #"remove_edges_pagerank_BF_iterately_forward": lambda G: remove_edges_hierarchy(G, "pagerank", "BF_iterately_forward"),
-    #"remove_edges_trueskill_BF_iterately_forward": lambda G: remove_edges_hierarchy(G, "trueskill", "BF_iterately_forward"),
-    #"remove_edges_pagerank_BF_iterately_noforward": lambda G: remove_edges_hierarchy(G, "pagerank", "BF_iterately_noforward"),
-    #"remove_edges_trueskill_BF_iterately_noforward": lambda G: remove_edges_hierarchy(G, "trueskill", "BF_iterately_noforward"),
-    #"remove_edges_pagerank_voting": lambda G: remove_edges_hierarchy(G, "pagerank", "voting"),
-    #"remove_edges_trueskill_voting": lambda G: remove_edges_hierarchy(G, "trueskill", "voting"),
+    "italjani": wrap(get_some_FAS),
+    "remove_edges_dfs": wrap(remove_edges_dfs),
+    "remove_edges_FAS_greedy": wrap(remove_edges_FAS_greedy),
+    "remove_edges_pagerank_scc_iteratively": wrap(lambda G: remove_edges_hierarchy(G, "pagerank", "scc_iteratively")),
+    "remove_edges_trueskill_scc_iterativela": wrap(lambda G: remove_edges_hierarchy(G, "trueskill", "scc_iteratively")),
+    "remove_edges_pagerank_BF_iterately_forward": wrap(lambda G: remove_edges_hierarchy(G, "pagerank", "BF_iterately_forward")),
+    "remove_edges_trueskill_BF_iterately_forward": wrap(lambda G: remove_edges_hierarchy(G, "trueskill", "BF_iterately_forward")),
+    "remove_edges_pagerank_BF_iterately_noforward": wrap(lambda G: remove_edges_hierarchy(G, "pagerank", "BF_iterately_noforward")),
+    "remove_edges_trueskill_BF_iterately_noforward": wrap(lambda G: remove_edges_hierarchy(G, "trueskill", "BF_iterately_noforward")),
+    "remove_edges_pagerank_voting": wrap(lambda G: remove_edges_hierarchy(G, "pagerank", "voting")),
+    "remove_edges_trueskill_voting": wrap(lambda G: remove_edges_hierarchy(G, "trueskill", "voting")),
 }
 
 
@@ -76,4 +78,4 @@ for solver_name in solvers_dict.keys():
 
 
 
-df.to_csv("solvers_"+db_name,index=False)
+df.to_csv("solutions2_solvers_"+db_name,index=False)
