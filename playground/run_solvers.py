@@ -7,7 +7,7 @@ import sys
 sys.path.append(".")
 sys.path.append("../solvers")
 
-# from solvers.DiVerSeS import diverses
+from solvers.DiVerSeS import diverses
 # from solvers.exact import exact_with_wcnf
 from solvers.italjani import get_some_FAS
 # from solvers.remove_cycle_edges_by_dfs import remove_edges_dfs
@@ -17,7 +17,8 @@ from solvers.italjani import get_some_FAS
 
 from helper_functions import path_to_graph_name
 
-db_name = "chars_components_small.csv"
+# db_name = "chars_components_small.csv"
+db_name = "diverses_nonodes_sols_4_3_2_1_components.csv"
 df = pd.read_csv(db_name)
 
 # example: run = wrap(get_some_FAS, 5), run(G): runs get_some_FAS(G) 5 times and returns the best result
@@ -38,8 +39,16 @@ def wrap(solver, n=5):
     return run_n_times
 
 solvers_dict = {
-    #"diverses": diverses,
-    "italjani": wrap(get_some_FAS,n=1),
+    
+    # "diverses": lambda G : (diverses(G, timeout=5), None),
+    # "italjani": lambda G : (len(get_some_FAS(G, sort_mode="ain",dir_mode="f")), None),
+    "smartAE_ainf": lambda G : (None, None) \
+        if G.number_of_nodes() > 5000 or G.number_of_edges() > 10000
+        else (len(get_some_FAS(G, sort_mode="ain",dir_mode="f")), None),
+    # assert sort_mode in ["ain", "din", "aout", "dout"]
+    # assert dir_mode in ["f","b"]
+    
+    
     # "remove_edges_dfs": wrap(remove_edges_dfs),
     ########### "remove_edges_FAS_greedy": wrap(remove_edges_FAS_greedy),
     # "remove_edges_pagerank_scc_iteratively": wrap(lambda G: remove_edges_hierarchy(G, "pagerank", "scc_iteratively")),
@@ -70,7 +79,7 @@ def solve(pickle_path,solver_name):
     start  = time()
     sol, _ = solver(G)
     stop = time()
-    return sol + len(self_loops), stop - start
+    return None if sol is None else sol + len(self_loops), stop - start
 
 
 # tu pozenemo solverje
@@ -81,4 +90,4 @@ for solver_name in solvers_dict.keys():
 
 
 
-df.to_csv("solutions2_solvers_"+db_name,index=False)
+df.to_csv("smartAE_ainf_"+db_name,index=False)
