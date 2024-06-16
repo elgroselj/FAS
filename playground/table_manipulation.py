@@ -1,4 +1,5 @@
 import pandas as pd
+import numpy as np
 
 def lensol(df):
     cols = [col for col in df.columns if "_sol" in col and "diverses" not in col]
@@ -117,7 +118,7 @@ def add_best_solver_and_UB_columns(df):
             # If there's no tie, select the solver with the minimum _sol value
             min_time_solver = min_sol_solvers[0]
         
-        best_solvers.append(min_time_solver)
+        best_solvers.append(min_time_solver[:-4])
         UB_values.append(min_sol)
     
     # Create the new columns in the DataFrame
@@ -142,7 +143,48 @@ def add_gap_columns(df):
     
     return df
 
-df = pd.read_csv("diverses_nonodes_sols_4_3_2_1_components.csv")
-dg = add_best_solver_and_UB_columns(df)
-dg = add_gap_columns(df)
-dg.to_csv("gap_UB_diverses_nonodes_sols_4_3_2_1_components.csv", index=False)
+# db_name = "diversesfill_diversesfill_smartAEainf_diverses_nonodes_sols_4_3_2_1_components.csv"
+# df = pd.read_csv(db_name)
+# dg = add_best_solver_and_UB_columns(df)
+# dg = add_gap_columns(df)
+# dg.to_csv("gap_UB_" + db_name, index=False)
+
+
+
+
+def add_interquartile_range(df):
+    # Find all columns ending in '_p25' and '_p75'
+    p25_columns = [col for col in df.columns if col.endswith('_p25')]
+    p75_columns = [col for col in df.columns if col.endswith('_p75')]
+    
+    for p25_col in p25_columns:
+        # Find the corresponding p75 column
+        base_name = p25_col[:-4]  # Remove '_p25' to get the base name
+        p75_col = base_name + '_p75'
+        
+        if p75_col in p75_columns:
+            # Calculate the IQR
+            iqr_col = base_name + '_iqr'
+            df[iqr_col] = df[p75_col] - df[p25_col]
+    
+    return df
+
+# db_name = "gap_UB_diversesfill_diversesfill_smartAEainf_diverses_nonodes_sols_4_3_2_1_components.csv"
+# df = pd.read_csv(db_name)
+# dg = add_interquartile_range(df)
+# dg.to_csv("iqr_" + db_name, index=False)
+
+
+# db_name = "iqr_gap_UB_diversesfill_diversesfill_smartAEainf_diverses_nonodes_sols_4_3_2_1_components.csv"
+# df = pd.read_csv(db_name)
+# df["treewidth"] = np.min([df.treewidth_min_fill_in.values, df.treewidth_min_degree.values],axis = 0)
+# print(df["treewidth"])
+# df.to_csv("tw_" + db_name, index=False)
+
+
+db_name = "tw_iqr_gap_UB_diversesfill_diversesfill_smartAEainf_diverses_nonodes_sols_4_3_2_1_components.csv"
+df = pd.read_csv(db_name)
+
+df = df[(df["n"] <= 5000)& (df["m"] <= 10000)]
+
+df.to_csv("nothuge_" + db_name, index=False)

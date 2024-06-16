@@ -1,6 +1,7 @@
 import pandas as pd
 import pickle
 import networkx as nx
+import numpy as np
 from time import time
 import sys
 
@@ -18,7 +19,9 @@ from solvers.italjani import get_some_FAS
 from helper_functions import path_to_graph_name
 
 # db_name = "chars_components_small.csv"
-db_name = "diverses_nonodes_sols_4_3_2_1_components.csv"
+# db_name = "diverses_nonodes_sols_4_3_2_1_components.csv"
+# db_name = "smartAEainf_diverses_nonodes_sols_4_3_2_1_components.csv"
+db_name = "diversesfill_smartAEainf_diverses_nonodes_sols_4_3_2_1_components.csv"
 df = pd.read_csv(db_name)
 
 # example: run = wrap(get_some_FAS, 5), run(G): runs get_some_FAS(G) 5 times and returns the best result
@@ -40,11 +43,14 @@ def wrap(solver, n=5):
 
 solvers_dict = {
     
-    # "diverses": lambda G : (diverses(G, timeout=5), None),
+    "diverses": lambda G : (diverses(G, timeout=40), None),
+    
     # "italjani": lambda G : (len(get_some_FAS(G, sort_mode="ain",dir_mode="f")), None),
-    "smartAE_ainf": lambda G : (None, None) \
-        if G.number_of_nodes() > 5000 or G.number_of_edges() > 10000
-        else (len(get_some_FAS(G, sort_mode="ain",dir_mode="f")), None),
+    
+    # "smartAE_ainf": lambda G : (None, None) \
+    #     if G.number_of_nodes() > 5000 or G.number_of_edges() > 10000
+    #     else (len(get_some_FAS(G, sort_mode="ain",dir_mode="f")), None),
+    
     # assert sort_mode in ["ain", "din", "aout", "dout"]
     # assert dir_mode in ["f","b"]
     
@@ -83,11 +89,32 @@ def solve(pickle_path,solver_name):
 
 
 # tu pozenemo solverje
-#for solver_name in solvers_dict.keys():
-for solver_name in solvers_dict.keys():
-    print(solver_name)
-    df[solver_name+"_sol"], df[solver_name+"_time"] = zip(*df["pickle_path"].map(lambda path: solve(path, solver_name)))
+
+# for solver_name in solvers_dict.keys():
+#     print(solver_name)
+#     df[solver_name+"_sol"], df[solver_name+"_time"] = zip(*df["pickle_path"].map(lambda path: solve(path, solver_name)))
 
 
 
-df.to_csv("smartAE_ainf_"+db_name,index=False)
+
+for r in range(len(df)):
+    # print(df.diverses_sol.iloc[r])
+    if np.isnan(df.diverses_sol.iloc[r]):
+        # print("NAN")
+        pickle_path = df.pickle_path.iloc[r]
+        solver_name = "diverses"
+        sol, t = solve(pickle_path, solver_name)
+        df.at[r, 'diverses_sol'] = sol
+        df.at[r, 'diverses_time'] = t
+        print(df.diverses_sol.iloc[r])
+
+
+
+
+
+
+
+
+
+df.to_csv("diversesfill_"+db_name,index=False)
+
