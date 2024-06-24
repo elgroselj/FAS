@@ -53,8 +53,9 @@ def din(G):
     return FAS
 
 
-def exact_with_wcnf(G):
-    cycles = list(nx.simple_cycles(graph))
+def exact_with_wcnf(graph, cycles=None):
+    if cycles is None:
+        cycles = list(nx.simple_cycles(graph))
     n = graph.number_of_nodes()
     #print(cycles)
 
@@ -72,7 +73,7 @@ def exact_with_wcnf(G):
             m = max(m, index)
         wcnf.append(add)
 
-    # minimize number of vertices needed to remove
+    # minimize number of edges needed to remove
     for i in range(1, m+1):
         wcnf.append([-i], weight=1)
 
@@ -82,7 +83,8 @@ def exact_with_wcnf(G):
 
     for edge in opt:
         if edge > 0:
-            y = n if (edge) % n == 0 else (edge) % n
+            #y = n if (edge) % n == 0 else (edge) % n   # previous graph generation
+            y = edge % n        # new graph generation
             x = (edge - y) // n
             #print('removing edge {0} {1}'.format(x, y))
             remove.append((str(x), str(y)))
