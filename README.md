@@ -1,12 +1,16 @@
-# Struktura projekta
-- data = naj bi bili testni podatki (grafi)
-    - v FASP-benchmarks/data maš readme o datotekah
-    - FVStekmovanje (se uporabi čist normalno, razen, če hočemo uporabit njihove rezultate, potem moramo naredit iz teh grafov line grafe)
-    - snap (realna omrežja == velika)
+# Influence of Graph Characteristics on Solutions of Feedback Arc Set Problem
 
-    - vse te formate poenotimo tako, da jih zberemo v eni bazi graphs.csv in njihove pickle v mapi pickles (1. naredi mapo pickles, 2. poženi construct_db_components.py)
+This code is a companion of an article Influence of Graph Characteristics on Solutions of Feedback Arc Set Problem. In this article we present Feedback Arc Set problem and how certain graph characteristics impact results of heuristic algorithms. We then inspect how the most promising characteristic (treewidth) helps in choosing the most appropriate heuristics for our graph.
 
-- playground = prostor za poskušanje stvari
-- solvers = implementacije
-- helper_functions.py = pomožne funkcije
-- NOTES.md = beleženje virov itd.
+Project structure:
+- data = supposed to contain test data (graphs)
+    - v FASP-benchmarks/data there is a readme about the files
+    - graph-benchmarks
+    - snap (real networks == large)
+
+    - we unify all these formats by collecting them in one database graphs.csv and their pickle files in the pickles folder (1. create the pickles folder, 2. run construct_db_components.py)
+
+playground = space for trying things out
+solvers = implementations
+helper_functions.py = helper functions
+NOTES.md = notes on sources, etc.
